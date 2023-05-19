@@ -1,7 +1,6 @@
 package com.szh.springframework.test;
 
 import com.szh.springframework.beans.factory.config.BeanDefinition;
-import com.szh.springframework.beans.factory.BeanFactory;
 import com.szh.springframework.beans.factory.support.DefaultListableBeanFactory;
 import com.szh.springframework.test.bean.UserService;
 import org.junit.Test;
