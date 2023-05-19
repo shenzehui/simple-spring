@@ -2,7 +2,6 @@ package com.szh.springframework;
 
 /**
  * 用于定义 Bean 实例化信息，现在实现的是一个 Object 存放对象
- * <p>
  * Created by szh on 2023-05-19
  *
  * @author szh
