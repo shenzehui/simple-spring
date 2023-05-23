@@ -17,42 +17,40 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
     /**
      * 获取单 bean，如果不存在会创建 bean
      * 这个方法将来会被调用获取实例
-     *
-     * @param name
-     * @return
      */
     @Override
     public Object getBean(String name) {
+        return doGetBean(name, null);
+    }
+
+    @Override
+    public Object getBean(String name, Object... args) throws BeansException {
+        return doGetBean(name, args);
+    }
+
+    private <T> T doGetBean(final String name, final Object[] args) {
         // 获取单例 bean 实例
         Object bean = getSingleton(name);
         // 存在，直接返回
         if (bean != null) {
-            return bean;
+            return (T) bean;
         }
         // 不存在，检查是否注册，若有，直接返回，反之，抛出异常
         BeanDefinition beanDefinition = getBeanDefinition(name);
-        // 通过反射创建 bean 的实例化，并加入到单例对象缓存中
-        return createBean(name, beanDefinition);
+        // 通过 Cglib 创建类实例对象
+        return (T) createBean(name, beanDefinition, args);
     }
+
 
     /**
      * 根据名称获取 BeanDefinition
-     *
-     * @param name
-     * @return
-     * @throws BeansException
      */
     protected abstract BeanDefinition getBeanDefinition(String name) throws BeansException;
 
     /**
      * 根据 beanName() 和 beanDefinition(Class) 创建类实例并加入缓存
-     *
-     * @param beanName
-     * @param beanDefinition
-     * @return
-     * @throws BeansException
      */
-    protected abstract Object createBean(String beanName, BeanDefinition beanDefinition) throws BeansException;
+    protected abstract Object createBean(String beanName, BeanDefinition beanDefinition, Object[] args) throws BeansException;
 
 
 }
