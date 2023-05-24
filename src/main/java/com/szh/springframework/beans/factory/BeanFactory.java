@@ -20,11 +20,14 @@ public interface BeanFactory {
 
     /**
      * 可以方便的传递入参构造函数实例化
+     *
      * @param name
      * @param args
      * @return
      * @throws BeansException
      */
     Object getBean(String name, Object... args) throws BeansException;
+
+    <T> T getBean(String name, Class<T> requiredType) throws BeansException;
 
 }

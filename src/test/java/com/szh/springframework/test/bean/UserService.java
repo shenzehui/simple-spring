@@ -9,21 +9,20 @@ package com.szh.springframework.test.bean;
 
 public class UserService {
 
-    private String uid;
+    private String uId;
 
     private UserDao userDao;
 
-
-    public void queryUserInfo() {
-        System.out.println("查询用户信息 " + userDao.queryUserName(uid));
+    public String queryUserInfo() {
+        return userDao.queryUserName(uId);
     }
 
-    public String getUid() {
-        return uid;
+    public String getuId() {
+        return uId;
     }
 
-    public void setUid(String uid) {
-        this.uid = uid;
+    public void setuId(String uId) {
+        this.uId = uId;
     }
 
     public UserDao getUserDao() {
