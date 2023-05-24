@@ -1,7 +1,11 @@
 package com.szh.springframework.test;
 
+import com.szh.springframework.beans.PropertyValue;
+import com.szh.springframework.beans.PropertyValues;
 import com.szh.springframework.beans.factory.config.BeanDefinition;
+import com.szh.springframework.beans.factory.config.BeanReference;
 import com.szh.springframework.beans.factory.support.DefaultListableBeanFactory;
+import com.szh.springframework.test.bean.UserDao;
 import com.szh.springframework.test.bean.UserService;
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.NoOp;
@@ -43,11 +47,19 @@ public class ApiTest {
         DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
 
         // 2. 注入bean
-        BeanDefinition beanDefinition = new BeanDefinition(UserService.class);
+        beanFactory.registerBeanDefinition("userDao", new BeanDefinition(UserDao.class));
+
+        // 3. userService 设置属性[uid、userDao]
+        PropertyValues propertyValues = new PropertyValues();
+        propertyValues.addPropertyValue(new PropertyValue("uid", "10001"));
+        propertyValues.addPropertyValue(new PropertyValue("userDao", new BeanReference("userDao")));
+
+        // 4. userService 注入 bean
+        BeanDefinition beanDefinition = new BeanDefinition(UserService.class, propertyValues);
         beanFactory.registerBeanDefinition("userService", beanDefinition);
 
-        // 3.获取bean
-        UserService userService = (UserService) beanFactory.getBean("userService", "szh");
+        // 5. UserService 获取 bean
+        UserService userService = (UserService) beanFactory.getBean("userService");
         userService.queryUserInfo();
     }
 
