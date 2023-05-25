@@ -1,13 +1,19 @@
 package com.szh.springframework.test.bean;
 
+import com.szh.springframework.beans.BeansException;
+import com.szh.springframework.beans.factory.DisposableBean;
+import com.szh.springframework.beans.factory.InitializingBean;
+
+import java.lang.reflect.InvocationTargetException;
+
 /**
- * 测试用例
+ * 实现 InitializingBean 和 DisposableBean 接口，重写销毁和初始化方法
  * Created by szh on 2023-05-19
  *
  * @author szh
  */
 
-public class UserService {
+public class UserService implements InitializingBean, DisposableBean {
 
     private String uId;
     private String company;
@@ -15,8 +21,19 @@ public class UserService {
     private UserDao userDao;
 
     public String queryUserInfo() {
-        return userDao.queryUserName(uId)+", 公司："+company+", 地点"+location;
+        return userDao.queryUserName(uId) + "," + company + "," + location;
     }
+
+    @Override
+    public void destroy() throws BeansException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        System.out.println("执行：UserService.destroy");
+    }
+
+    @Override
+    public void afterPropertiesSet() throws BeansException {
+        System.out.println("执行：UserService.afterPropertiesSet");
+    }
+
 
     public String getuId() {
         return uId;
@@ -49,4 +66,5 @@ public class UserService {
     public void setUserDao(UserDao userDao) {
         this.userDao = userDao;
     }
+
 }

@@ -12,7 +12,7 @@ import java.util.Map;
 /**
  * 应用上下文抽象类实现
  * 继承 DefaultResourceLoader 处理 spring.xml 配置资源的加载
- *
+ * <p>
  * Created by szh on 2023-05-24
  *
  * @author szh
@@ -80,5 +80,15 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
     @Override
     public <T> T getBean(String name, Class<T> requiredType) throws BeansException {
         return getBeanFactory().getBean(name, requiredType);
+    }
+
+    @Override
+    public void registerShutdownHook() {
+        Runtime.getRuntime().addShutdownHook(new Thread(this::close));
+    }
+
+    @Override
+    public void close() {
+        getBeanFactory().destroySingletons();
     }
 }

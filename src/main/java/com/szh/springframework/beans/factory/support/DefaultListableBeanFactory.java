@@ -3,7 +3,6 @@ package com.szh.springframework.beans.factory.support;
 import com.szh.springframework.beans.BeansException;
 import com.szh.springframework.beans.factory.ConfigurableListableBeanFactory;
 import com.szh.springframework.beans.factory.config.BeanDefinition;
-import com.szh.springframework.beans.factory.config.BeanPostProcessor;
 
 import java.util.HashMap;
 import java.util.Map;

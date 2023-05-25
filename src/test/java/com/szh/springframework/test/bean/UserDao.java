@@ -13,13 +13,22 @@ public class UserDao {
 
     private static Map<String, String> hashMap = new HashMap<>();
 
-    static {
-        hashMap.put("10001", "蔡新乐");
-        hashMap.put("10002", "韩宝帅");
-        hashMap.put("10003", "郭昌浩");
+    /**
+     * 代替 static 更优雅的实现了自定义初始化和销毁方法
+     */
+    public void initDataMethod() {
+        System.out.println("执行：init-method");
+        hashMap.put("10001", "szh");
+        hashMap.put("10002", "蔡新乐");
+        hashMap.put("10003", "胡兵");
     }
 
-    public String queryUserName(String uid) {
-        return hashMap.get(uid);
+    public void destroyDataMethod() {
+        System.out.println("执行：destroy-method");
+        hashMap.clear();
+    }
+
+    public String queryUserName(String uId) {
+        return hashMap.get(uId);
     }
 }

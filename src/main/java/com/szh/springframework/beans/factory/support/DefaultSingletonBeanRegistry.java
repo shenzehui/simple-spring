@@ -1,9 +1,13 @@
 package com.szh.springframework.beans.factory.support;
 
+import com.szh.springframework.beans.BeansException;
+import com.szh.springframework.beans.factory.DisposableBean;
 import com.szh.springframework.beans.factory.config.SingletonBeanRegistry;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * 单例注册接口的实现
@@ -15,6 +19,8 @@ import java.util.Map;
 public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
 
     private Map<String, Object> singletonObjects = new HashMap<>();
+
+    private final Map<String, DisposableBean> disposableBeans = new HashMap<>();
 
     /**
      * 获取单例类对象
@@ -35,5 +41,25 @@ public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
      */
     protected void addSingleton(String beanName, Object singletonObject) {
         singletonObjects.put(beanName, singletonObject);
+    }
+
+    public void registerDisposableBean(String beanName, DisposableBean bean) {
+        disposableBeans.put(beanName, bean);
+    }
+
+    @Override
+    public void destroySingletons() {
+        Set<String> keySet = this.disposableBeans.keySet();
+        Object[] disposableBeanNames = keySet.toArray();
+
+        for (int i = disposableBeanNames.length - 1; i >= 0; i--) {
+            Object beanName = disposableBeanNames[i];
+            DisposableBean disposableBean = disposableBeans.remove(beanName);
+            try {
+                disposableBean.destroy();
+            } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+                throw new BeansException("Destroy method on bean with name '" + beanName + "' threw an exception", e);
+            }
+        }
     }
 }

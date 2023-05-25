@@ -1,7 +1,6 @@
 package com.szh.springframework.beans.factory.support;
 
 import com.szh.springframework.beans.BeansException;
-import com.szh.springframework.beans.factory.BeanFactory;
 import com.szh.springframework.beans.factory.config.BeanDefinition;
 import com.szh.springframework.beans.factory.config.BeanPostProcessor;
 import com.szh.springframework.beans.factory.config.ConfigurableBeanFactory;
