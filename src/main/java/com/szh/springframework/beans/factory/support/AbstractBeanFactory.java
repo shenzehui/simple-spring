@@ -3,6 +3,12 @@ package com.szh.springframework.beans.factory.support;
 import com.szh.springframework.beans.BeansException;
 import com.szh.springframework.beans.factory.BeanFactory;
 import com.szh.springframework.beans.factory.config.BeanDefinition;
+import com.szh.springframework.beans.factory.config.BeanPostProcessor;
+import com.szh.springframework.beans.factory.config.ConfigurableBeanFactory;
+import com.szh.springframework.util.ClassUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 抽象类定义模板方法
@@ -12,7 +18,17 @@ import com.szh.springframework.beans.factory.config.BeanDefinition;
  * @author szh
  */
 
-public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry implements BeanFactory {
+public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry implements ConfigurableBeanFactory {
+
+    /**
+     * ClassLoader to resolve bean class names with, if necessary
+     */
+    private ClassLoader beanClassLoader = ClassUtils.getDefaultClassLoader();
+
+    /**
+     * BeanPostProcessors to apply in createBean
+     */
+    private final List<BeanPostProcessor> beanPostProcessors = new ArrayList<BeanPostProcessor>();
 
     /**
      * 获取单 bean，如果不存在会创建 bean
@@ -57,5 +73,23 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
      */
     protected abstract Object createBean(String beanName, BeanDefinition beanDefinition, Object[] args) throws BeansException;
 
+
+    @Override
+    public void addBeanPostProcessor(BeanPostProcessor beanPostProcessor) {
+        this.beanPostProcessors.remove(beanPostProcessor);
+        this.beanPostProcessors.add(beanPostProcessor);
+    }
+
+    /**
+     * Return the list of BeanPostProcessors that will get applied
+     * to beans created with this factory.
+     */
+    public List<BeanPostProcessor> getBeanPostProcessors() {
+        return this.beanPostProcessors;
+    }
+
+    public ClassLoader getBeanClassLoader() {
+        return this.beanClassLoader;
+    }
 
 }

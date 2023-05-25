@@ -15,7 +15,7 @@ import java.lang.reflect.InvocationTargetException;
 
 public class SimpleInstantiationStrategy implements InstantiationStrategy {
     @Override
-    public Object instance(BeanDefinition beanDefinition, String beanName, Constructor ctor, Object[] args) throws BeansException {
+    public Object instantiate(BeanDefinition beanDefinition, String beanName, Constructor ctor, Object[] args) throws BeansException {
         // 通过 beanDefinition 获取 Class 信息，这个 Class 信息是在 bean 定义的时候传递进去的
         Class clazz = beanDefinition.getBeanClass();
         try {
