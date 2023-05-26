@@ -5,8 +5,7 @@ import cn.hutool.core.util.StrUtil;
 import com.szh.springframework.beans.BeansException;
 import com.szh.springframework.beans.PropertyValue;
 import com.szh.springframework.beans.PropertyValues;
-import com.szh.springframework.beans.factory.DisposableBean;
-import com.szh.springframework.beans.factory.InitializingBean;
+import com.szh.springframework.beans.factory.*;
 import com.szh.springframework.beans.factory.config.*;
 
 import java.lang.reflect.Constructor;
@@ -115,6 +114,20 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
      * 执行前置和后置处理
      */
     private Object initializeBean(String beanName, Object bean, BeanDefinition beanDefinition) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+
+        // invokeAwareMethods
+        if (bean instanceof Aware) {
+            if (bean instanceof BeanFactoryAware) {
+                ((BeanFactoryAware) bean).setBeanFactory(this);
+            }
+            if (bean instanceof BeanClassLoaderAware) {
+                ((BeanClassLoaderAware) bean).setBeanClassLoader(getBeanClassLoader());
+            }
+            if (bean instanceof BeanNameAware) {
+                ((BeanNameAware) bean).setBeanName(beanName);
+            }
+        }
+
         // 1. 执行 BeanPostProcessor Before 处理
         Object wrappedBean = applyBeanPostProcessorsBeforeInitialization(bean, beanName);
 
