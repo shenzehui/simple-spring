@@ -1,6 +1,7 @@
 package com.szh.springframework.beans.factory.support;
 
 import com.szh.springframework.beans.BeansException;
+import com.szh.springframework.beans.factory.FactoryBean;
 import com.szh.springframework.beans.factory.config.BeanDefinition;
 import com.szh.springframework.beans.factory.config.BeanPostProcessor;
 import com.szh.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -17,7 +18,7 @@ import java.util.List;
  * @author szh
  */
 
-public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry implements ConfigurableBeanFactory {
+public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport implements ConfigurableBeanFactory {
 
     /**
      * ClassLoader to resolve bean class names with, if necessary
@@ -50,15 +51,36 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
 
     private <T> T doGetBean(final String name, final Object[] args) {
         // 获取单例 bean 实例
-        Object bean = getSingleton(name);
-        // 存在，直接返回
-        if (bean != null) {
-            return (T) bean;
+        Object sharedInstance = getSingleton(name);
+
+        if (sharedInstance != null) {
+            return (T) getObjectBeanInstance(sharedInstance, name);
         }
         // 不存在，检查是否注册，若有，直接返回，反之，抛出异常
         BeanDefinition beanDefinition = getBeanDefinition(name);
         // 通过 Cglib 创建类实例对象
-        return (T) createBean(name, beanDefinition, args);
+        Object bean = createBean(name, beanDefinition, args);
+
+        return (T) getObjectBeanInstance(bean, name);
+    }
+
+    /**
+     * 对获取 FactoryBean 的操作
+     *
+     * @param beanInstance
+     * @param beanName
+     * @return
+     */
+    private Object getObjectBeanInstance(Object beanInstance, String beanName) {
+        if (!(beanInstance instanceof FactoryBean)) {
+            return beanInstance;
+        }
+        Object object = getCachedObjectForFactoryBean(beanName);
+        if (object == null) {
+            FactoryBean<?> factoryBean = (FactoryBean<?>) beanInstance;
+            object = getObjectFromFactoryBean(factoryBean, beanName);
+        }
+        return object;
     }
 
 

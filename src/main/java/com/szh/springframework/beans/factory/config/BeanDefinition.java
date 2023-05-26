@@ -12,6 +12,10 @@ import com.szh.springframework.beans.PropertyValues;
 
 public class BeanDefinition {
 
+    String SCOPE_SINGLETON = ConfigurableBeanFactory.SCOPE_SINGLETON;
+
+    String SCOPE_PROTOTYPE = ConfigurableBeanFactory.SCOPE_PROTOTYPE;
+
     private Class beanClass;
 
     private PropertyValues propertyValues;
@@ -23,6 +27,22 @@ public class BeanDefinition {
 
     private String destroyMethodName;
 
+    private String scope = SCOPE_SINGLETON;
+
+    /**
+     * Bean 的作用范围定义
+     */
+    private boolean singleton = true;
+
+    private boolean prototype = false;
+
+    public void setScope(String scope) {
+        this.scope = scope;
+        this.singleton = SCOPE_SINGLETON.equals(scope);
+        this.prototype = SCOPE_PROTOTYPE.equals(scope);
+    }
+
+
     public BeanDefinition(Class beanClass) {
         this.beanClass = beanClass;
         this.propertyValues = new PropertyValues();
@@ -31,6 +51,22 @@ public class BeanDefinition {
     public BeanDefinition(Class beanClass, PropertyValues propertyValues) {
         this.beanClass = beanClass;
         this.propertyValues = propertyValues != null ? propertyValues : new PropertyValues();
+    }
+
+    public boolean isSingleton() {
+        return singleton;
+    }
+
+    public void setSingleton(boolean singleton) {
+        this.singleton = singleton;
+    }
+
+    public boolean isPrototype() {
+        return prototype;
+    }
+
+    public void setPrototype(boolean prototype) {
+        this.prototype = prototype;
     }
 
     public Class getBeanClass() {

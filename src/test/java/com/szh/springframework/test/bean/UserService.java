@@ -1,11 +1,5 @@
 package com.szh.springframework.test.bean;
 
-import com.szh.springframework.beans.BeansException;
-import com.szh.springframework.beans.factory.*;
-import com.szh.springframework.context.ApplicationContext;
-
-import java.lang.reflect.InvocationTargetException;
-
 /**
  * 实现 InitializingBean 和 DisposableBean 接口，重写销毁和初始化方法
  * Created by szh on 2023-05-19
@@ -13,48 +7,17 @@ import java.lang.reflect.InvocationTargetException;
  * @author szh
  */
 
-public class UserService implements BeanNameAware, BeanClassLoaderAware, ApplicationContextAware, BeanFactoryAware {
-
-    private ApplicationContext applicationContext;
-    private BeanFactory beanFactory;
-
-
+public class UserService {
     private String uId;
     private String company;
     private String location;
-    private UserDao userDao;
-
-
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
-    }
-
-    @Override
-    public void setBeanClassLoader(ClassLoader classLoader) {
-        System.out.println("ClassLoader：" + classLoader);
-    }
-
-    @Override
-    public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
-        this.beanFactory = beanFactory;
-    }
-
-    @Override
-    public void setBeanName(String name) {
-        System.out.println("Bean Name is：" + name);
-    }
+    /**
+     * 在 UserService 新修改了一个原有 UserDao 属性为 IUserDao，后面我们会给这个属性注入代理对象。
+     */
+    private IUserDao userDao;
 
     public String queryUserInfo() {
         return userDao.queryUserName(uId) + "," + company + "," + location;
-    }
-
-    public ApplicationContext getApplicationContext() {
-        return applicationContext;
-    }
-
-    public BeanFactory getBeanFactory() {
-        return beanFactory;
     }
 
     public String getuId() {
@@ -81,11 +44,11 @@ public class UserService implements BeanNameAware, BeanClassLoaderAware, Applica
         this.location = location;
     }
 
-    public UserDao getUserDao() {
+    public IUserDao getUserDao() {
         return userDao;
     }
 
-    public void setUserDao(UserDao userDao) {
+    public void setUserDao(IUserDao userDao) {
         this.userDao = userDao;
     }
 }
