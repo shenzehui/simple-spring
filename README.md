@@ -26,4 +26,16 @@
 
 ## Aware感知容器
 
-![step8](https://javablog-image.oss-cn-hangzhou.aliyuncs.com/blog/step8.png)
+![image-20230530171826018](https://javablog-image.oss-cn-hangzhou.aliyuncs.com/blog/image-20230530171826018.png)
+
+## 关于Bean对象作用域以及FactoryBean的实现和使用
+
+![step9](https://javablog-image.oss-cn-hangzhou.aliyuncs.com/blog/step9.png)
+
+## 基于观察者实现，容器事件和事件监听器
+
+![step10](https://javablog-image.oss-cn-hangzhou.aliyuncs.com/blog/step10.png)
+
+## 基于JDK和Cglib动态代理，实现AOP核心功能
+
+![step11](https://javablog-image.oss-cn-hangzhou.aliyuncs.com/blog/step11.png)
