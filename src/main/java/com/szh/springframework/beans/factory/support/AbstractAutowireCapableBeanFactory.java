@@ -30,6 +30,12 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
     protected Object createBean(String beanName, BeanDefinition beanDefinition, Object[] args) throws BeansException {
         Object bean = null;
         try {
+            // 判断是否返回代理 Bean 对象
+            bean = resolveBeforeInstantiation(beanName, beanDefinition);
+            if (null != bean) {
+                return bean;
+            }
+
             bean = createBeanInstance(beanDefinition, beanName, args);
             // 给 bean 填充属性
             applyProperties(beanName, bean, beanDefinition);
@@ -48,6 +54,15 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
             addSingleton(beanName, bean);
         }
 
+        return bean;
+    }
+
+    private Object resolveBeforeInstantiation(String beanName, BeanDefinition beanDefinition) {
+        Object bean = applyBeanPostProcessorBeforeInstantiation(beanDefinition.getBeanClass(), beanName);
+        if (null != bean) {
+            // 执行后置处理
+            bean = applyBeanPostProcessorsAfterInitialization(bean, beanName);
+        }
         return bean;
     }
 
@@ -163,6 +178,22 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
             initMethod.invoke(bean);
         }
     }
+
+    /**
+     * 前置处理创建需要代理的独享
+     */
+    private Object applyBeanPostProcessorBeforeInstantiation(Class<?> beanClass, String beanName) {
+        for (BeanPostProcessor processor : getBeanPostProcessors()) {
+            if (processor instanceof InstantiationAwareBeanPostProcessor) {
+                Object result = ((InstantiationAwareBeanPostProcessor) processor).postProcessBeforeInstantiation(beanClass, beanName);
+                if (null != result) {
+                    return result;
+                }
+            }
+        }
+        return null;
+    }
+
 
     public Object applyBeanPostProcessorsBeforeInitialization(Object existingBean, String beanName) throws BeansException {
         Object result = existingBean;

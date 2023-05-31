@@ -12,6 +12,9 @@ import org.aopalliance.intercept.MethodInterceptor;
 
 public class AdvisedSupport {
 
+    // ProxyConfig
+    private boolean proxyTargetClass = false;
+
     /**
      * 被代理的目标对象
      * 是一个目标对象，在目标对象类中提供 Object 入参属性，以及获取目标类 TargetClass 信息。
@@ -29,6 +32,14 @@ public class AdvisedSupport {
      * 是一个匹配方法的操作，这个对象由 AspectJExpressionPointcut 提供服务。
      */
     private MethodMatcher methodMatcher;
+
+    public boolean isProxyTargetClass() {
+        return proxyTargetClass;
+    }
+
+    public void setProxyTargetClass(boolean proxyTargetClass) {
+        this.proxyTargetClass = proxyTargetClass;
+    }
 
     public TargetSource getTargetSource() {
         return targetSource;
