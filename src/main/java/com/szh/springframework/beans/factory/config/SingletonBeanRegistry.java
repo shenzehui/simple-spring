@@ -17,16 +17,11 @@ public interface SingletonBeanRegistry {
      */
     Object getSingleton(String beanName);
 
-
-    /**
-     * 销毁单例对象
-     */
-    void destroySingletons();
-
     /**
      * 注册单例
      * @param beanName
      * @param singletonObject
      */
     void registerSingleton(String beanName, Object singletonObject);
+
 }

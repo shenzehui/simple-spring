@@ -1,13 +1,13 @@
 package com.szh.springframework.test.bean;
 
+import com.szh.springframework.beans.factory.annotation.Autowired;
+import com.szh.springframework.beans.factory.annotation.Value;
 import com.szh.springframework.stereotype.Component;
 
 import java.util.Random;
 
 /**
- * 给 UserService 类添加一个自定义注解 @Component("userService") 和一个属性信息 String token。
- * 这是为了分别测试包扫描和占位符属性
- * Created by szh on 2023-05-30
+ * Created by szh on 2023-06-04
  *
  * @author szh
  */
@@ -15,7 +15,11 @@ import java.util.Random;
 @Component("userService")
 public class UserService implements IUserService {
 
+    @Value("${token}")
     private String token;
+
+    @Autowired
+    private UserDao userDao;
 
     public String queryUserInfo() {
         try {
@@ -23,7 +27,7 @@ public class UserService implements IUserService {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        return "szh，100001，深圳";
+        return userDao.queryUserName("10001") + "，" + token;
     }
 
     public String register(String userName) {
@@ -47,4 +51,13 @@ public class UserService implements IUserService {
     public void setToken(String token) {
         this.token = token;
     }
+
+    public UserDao getUserDao() {
+        return userDao;
+    }
+
+    public void setUserDao(UserDao userDao) {
+        this.userDao = userDao;
+    }
 }
+

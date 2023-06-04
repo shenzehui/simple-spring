@@ -16,7 +16,7 @@ public interface BeanFactory {
      * @param name
      * @return
      */
-    Object getBean(String name);
+    Object getBean(String name) throws BeansException;
 
     /**
      * 可以方便的传递入参构造函数实例化
@@ -29,5 +29,7 @@ public interface BeanFactory {
     Object getBean(String name, Object... args) throws BeansException;
 
     <T> T getBean(String name, Class<T> requiredType) throws BeansException;
+
+    <T> T getBean(Class<T> requiredType) throws BeansException;
 
 }

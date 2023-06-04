@@ -40,12 +40,15 @@
 
 ![step11](https://javablog-image.oss-cn-hangzhou.aliyuncs.com/blog/step11.png)
 
-## 借着 BeanPostProcessor 把动态代理融入到 Bean 的生命周期中
+## 借着 BeanPostProcessor把动态代理融入到Bean的生命周期中
 
 ![step12](https://javablog-image.oss-cn-hangzhou.aliyuncs.com/blog/step12.png)
-
 
 
 ## 利用自定义注解 实现Bean的自动化扫描注册
 
 ![step13](https://javablog-image.oss-cn-hangzhou.aliyuncs.com/blog/step13.png)
+
+## 在实现自动扫描带@Component注解的对象自动装配和注册的基础上，可以使用@Autowired、@Value注解，完成对属性和对象的注入操作
+
+![step14](https://javablog-image.oss-cn-hangzhou.aliyuncs.com/blog/step14.png)

@@ -1,6 +1,7 @@
 package com.szh.springframework.context.annotation;
 
 import cn.hutool.core.util.StrUtil;
+import com.szh.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor;
 import com.szh.springframework.beans.factory.config.BeanDefinition;
 import com.szh.springframework.beans.factory.support.BeanDefinitionRegistry;
 import com.szh.springframework.stereotype.Component;
@@ -26,6 +27,7 @@ public class ClassPathBeanDefinitionScanner extends ClassPathScanningCandidateCo
      * 核心方法
      * 在 doScan 方法中处理所有指定路径下添加了注解的类，拆解出类的信息：名称、作用范围等，
      * 进行创建 BeanDefinition 好用于 Bean 对象的注册操作。
+     *
      * @param basePackages
      */
     public void doScan(String... basePackages) {
@@ -41,6 +43,9 @@ public class ClassPathBeanDefinitionScanner extends ClassPathScanningCandidateCo
                 registry.registerBeanDefinition(determineBeanName(beanDefinition), beanDefinition);
             }
         }
+
+        // 手动注册处理注解的 BeanPostProcessor (@Autowired、@Value)
+        registry.registerBeanDefinition("com.szh.springframework.context.annotation.internalAutowiredAnnotationProcessor", new BeanDefinition(AutowiredAnnotationBeanPostProcessor.class));
     }
 
     /**
