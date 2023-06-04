@@ -39,3 +39,13 @@
 ## 基于JDK和Cglib动态代理，实现AOP核心功能
 
 ![step11](https://javablog-image.oss-cn-hangzhou.aliyuncs.com/blog/step11.png)
+
+## 借着 BeanPostProcessor 把动态代理融入到 Bean 的生命周期中
+
+![step12](https://javablog-image.oss-cn-hangzhou.aliyuncs.com/blog/step12.png)
+
+
+
+## 利用自定义注解 实现Bean的自动化扫描注册
+
+![step13](https://javablog-image.oss-cn-hangzhou.aliyuncs.com/blog/step13.png)
