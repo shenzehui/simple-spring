@@ -1,5 +1,7 @@
 package com.szh.springframework.aop;
 
+import com.szh.springframework.util.ClassUtils;
+
 /**
  * Created by szh on 2023-05-30
  *
@@ -19,15 +21,19 @@ public class TargetSource {
      * <p>Can return <code>null</code>, although certain usages of a
      * <code>TargetSource</code> might just work with a predetermined
      * target class.
+     *
      * @return the type of targets returned by this {@link TargetSource}
      */
     public Class<?>[] getTargetClass() {
-        return this.target.getClass().getInterfaces();
+        Class<?> clazz = this.target.getClass();
+        clazz = ClassUtils.isCglibProxyClass(clazz) ? clazz.getSuperclass() : clazz;
+        return clazz.getInterfaces();
     }
 
     /**
      * Return a target instance. Invoked immediately before the
      * AOP framework calls the "target" of an AOP method invocation.
+     *
      * @return the target object, which contains the joinpoint
      * @throws Exception if the target object can't be resolved
      */
