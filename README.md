@@ -4,6 +4,10 @@
 
 ![image-20230519202118750](https://javablog-image.oss-cn-hangzhou.aliyuncs.com/blog/image-20230519202118750.png)
 
+## Bean 的生命周期
+
+![图 9-3](https://javablog-image.oss-cn-hangzhou.aliyuncs.com/blog/spring-9-03.png)
+
 ## 基于Cglib实现含构造函数的类实例化策略
 
 ![step3](https://javablog-image.oss-cn-hangzhou.aliyuncs.com/blog/step3.png)
