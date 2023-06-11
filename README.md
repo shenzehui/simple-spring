@@ -57,6 +57,10 @@
 
 ![step14](https://javablog-image.oss-cn-hangzhou.aliyuncs.com/blog/step14.png)
 
+## 使用三级缓存解决循环依赖问题
+
+![image-20230611153827985](https://javablog-image.oss-cn-hangzhou.aliyuncs.com/blog/image-20230611153827985.png)
+
 ## Spring中应用的设计模式
 
  ![image-20230609195559559](https://javablog-image.oss-cn-hangzhou.aliyuncs.com/blog/image-20230609195559559.png)
